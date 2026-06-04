@@ -3,646 +3,870 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>2026安全生产月 · 安全知识答题</title>
+<title>2026安全生产月 · 安全知识宣传</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --red: #c62828; --orange: #e65100; --gold: #f9a825;
-  --bg: #f5f5f5; --card: #fff; --text: #333; --text-light: #666;
-  --success: #2e7d32; --danger: #c62828; --primary: #d32f2f;
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --red:#c62828;--darkred:#8b0000;--gold:#f9a825;--lightgold:#fff8e1;
+  --bg:#f5f5f5;--card:#fff;--text:#333;--text2:#666;--text3:#999;
+  --success:#2e7d32;--warn:#e65100;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:500px;margin:0 auto;min-height:100vh}
+.hidden{display:none!important}
+
+/* ====== 顶部横幅 ====== */
+.hero{
+  background:linear-gradient(160deg,#8b0000 0%,#b71c1c 30%,#c62828 60%,#d32f2f 100%);
+  color:#fff;text-align:center;padding:28px 20px 24px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-40px;right:-30px;width:120px;height:120px;
+  background:rgba(255,255,255,.05);border-radius:50%;
+}
+.hero .tag{
+  display:inline-block;background:rgba(255,255,255,.18);padding:4px 16px;
+  border-radius:20px;font-size:12px;letter-spacing:3px;margin-bottom:12px;
+}
+.hero h1{font-size:20px;font-weight:900;line-height:1.5;letter-spacing:1px}
+.hero h1 .hl{
+  display:inline-block;background:var(--gold);color:#8b0000;
+  padding:2px 10px;border-radius:5px;font-weight:900;margin:4px 0;
+}
+.hero .date{font-size:12px;opacity:.8;margin-top:10px}
+
+/* ====== 通用区块 ====== */
+.section{padding:20px 16px}
+.section-title{
+  font-size:17px;font-weight:800;color:var(--red);margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-title::before{
+  content:'';display:inline-block;width:4px;height:18px;
+  background:var(--red);border-radius:2px;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: linear-gradient(135deg, #b71c1c 0%, #c62828 30%, #d32f2f 60%, #e53935 100%);
-  min-height: 100vh; color: var(--text);
+/* ====== 事故警示 ====== */
+.warning-cards{display:flex;flex-direction:column;gap:12px}
+.warn-card{
+  background:var(--card);border-radius:12px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  border-left:4px solid var(--red);
+}
+.warn-card-header{
+  padding:14px 16px 8px;display:flex;align-items:center;gap:8px;
+}
+.warn-card-header .icon{font-size:22px;flex-shrink:0}
+.warn-card-header .title{font-weight:700;font-size:15px;color:var(--red)}
+.warn-card-body{padding:0 16px 14px;font-size:14px;color:var(--text2);line-height:1.7}
+.warn-card-body .case{background:#fff5f5;border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:13px}
+.warn-card-body .case strong{color:var(--red)}
+.warn-card-body .lesson{font-size:13px;color:var(--warn);font-weight:600}
+
+/* ====== 安全要点折叠 ====== */
+.topics{display:flex;flex-direction:column;gap:10px}
+.topic-card{
+  background:var(--card);border-radius:12px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+.topic-header{
+  padding:16px;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;
+  transition:background .15s;
+}
+.topic-header:active{background:#fafafa}
+.topic-header .left{display:flex;align-items:center;gap:10px}
+.topic-header .left .icon{font-size:24px}
+.topic-header .left .name{font-weight:700;font-size:15px}
+.topic-header .arrow{font-size:16px;color:#ccc;transition:transform .25s}
+.topic-header .arrow.open{transform:rotate(180deg)}
+.topic-body{
+  max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;
+  padding:0 16px;background:#fafafa;
+}
+.topic-body.show{max-height:600px;padding:12px 16px 16px}
+.topic-body ul{list-style:none}
+.topic-body li{
+  font-size:14px;color:var(--text2);padding:6px 0 6px 18px;
+  position:relative;line-height:1.6;
+}
+.topic-body li::before{
+  content:'';position:absolute;left:0;top:14px;
+  width:6px;height:6px;background:var(--red);border-radius:50%;
 }
 
-/* ====== 顶部主题横幅 ====== */
-.header {
-  text-align: center; padding: 20px 16px 16px; color: #fff;
+/* ====== 安全箴言 ====== */
+.motto{
+  background:linear-gradient(135deg,#fff8e1,#fff3e0);
+  border-radius:12px;padding:20px;text-align:center;margin:0 16px 20px;
+  border:1px solid #ffe0b2;
 }
-.header .badge {
-  display: inline-block; background: rgba(255,255,255,0.2);
-  padding: 4px 14px; border-radius: 20px; font-size: 13px;
-  margin-bottom: 10px; letter-spacing: 2px;
+.motto .icon{font-size:32px;margin-bottom:8px}
+.motto .text{font-size:15px;font-weight:700;color:var(--warn);line-height:1.7}
+.motto .sub{font-size:12px;color:#b0a080;margin-top:6px}
+
+/* ====== 答题入口 ====== */
+.quiz-entry{
+  text-align:center;padding:0 16px 30px;
 }
-.header h1 {
-  font-size: 22px; line-height: 1.4; letter-spacing: 1px;
+.btn-quiz{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#d32f2f,#b71c1c);
+  color:#fff;font-size:18px;font-weight:800;padding:16px 40px;
+  border-radius:50px;text-decoration:none;letter-spacing:2px;
+  box-shadow:0 6px 24px rgba(211,47,47,.35);
+  cursor:pointer;border:none;transition:transform .15s;
 }
-.header h1 .highlight {
-  display: inline-block; background: var(--gold); color: #b71c1c;
-  padding: 2px 8px; border-radius: 4px; font-weight: 900;
+.btn-quiz:active{transform:scale(.96)}
+.btn-quiz .arrow{font-size:20px}
+
+/* ====== 答题模块 ====== */
+.quiz-section{
+  background:var(--card);border-radius:16px 16px 0 0;overflow:hidden;
 }
-.header .subtitle {
-  font-size: 13px; opacity: 0.85; margin-top: 6px;
+.quiz-top{
+  background:linear-gradient(135deg,#b71c1c,#d32f2f);color:#fff;
+  text-align:center;padding:16px;
+}
+.quiz-top h2{font-size:17px;font-weight:700;margin-bottom:4px}
+.quiz-top .sub{font-size:12px;opacity:.85}
+.quiz-body{padding:20px 16px}
+
+/* 登记表单 */
+.form-group{margin-bottom:14px}
+.form-group label{
+  display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px
+}
+.form-group input{
+  width:100%;padding:12px 14px;border:2px solid #e0e0e0;border-radius:10px;
+  font-size:16px;background:#fafafa;transition:border .2s
+}
+.form-group input:focus{outline:none;border-color:var(--red);background:#fff}
+.form-group .hint{font-size:11px;color:var(--text3);margin-top:3px}
+
+.btn{
+  display:block;width:100%;padding:14px;border:none;border-radius:12px;
+  font-size:17px;font-weight:700;cursor:pointer;text-align:center;
+  transition:transform .12s,opacity .12s;letter-spacing:1px;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{
+  background:linear-gradient(135deg,#d32f2f,#b71c1c);color:#fff;
+  box-shadow:0 4px 16px rgba(211,47,47,.3);
+}
+.btn-outline{
+  background:#fff;color:var(--red);border:2px solid var(--red);
+}
+.btn-small{
+  display:inline-block;padding:8px 20px;font-size:14px;border-radius:8px;
+  background:#fff;color:var(--red);border:2px solid var(--red);
+  cursor:pointer;font-weight:600;
+}
+.btn-secondary{background:#f5f5f5;color:var(--text);border:1px solid #ddd}
+.btn:disabled{opacity:.5;pointer-events:none}
+
+/* 题目进度 */
+.q-progress{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.q-progress .num{font-size:14px;font-weight:700;color:var(--red);white-space:nowrap}
+.q-progress .bar{flex:1;height:5px;background:#eee;border-radius:3px;overflow:hidden}
+.q-progress .bar .fill{height:100%;background:var(--red);border-radius:3px;transition:width .25s}
+
+/* 题目 */
+.q-cat{
+  display:inline-block;font-size:11px;background:#ffebee;color:var(--red);
+  padding:2px 10px;border-radius:10px;font-weight:700;margin-bottom:10px;
+}
+.q-text{font-size:16px;font-weight:600;line-height:1.6;margin-bottom:16px}
+.opt{
+  display:block;width:100%;padding:13px 14px;margin-bottom:8px;
+  border:2px solid #e8e8e8;border-radius:10px;background:#fff;
+  font-size:14px;text-align:left;cursor:pointer;transition:all .15s;
+  line-height:1.5;
+}
+.opt:active{transform:scale(.98)}
+.opt.pick{border-color:var(--red);background:#fff5f5;font-weight:600}
+.opt.correct{border-color:var(--success);background:#e8f5e9;cursor:default}
+.opt.wrong{border-color:var(--red);background:#ffebee;cursor:default}
+.opt:disabled{cursor:default}
+
+/* 翻页按钮 */
+.q-nav{display:flex;justify-content:space-between;margin-top:20px;gap:12px}
+.q-nav .btn{flex:1}
+
+/* 结果页 */
+.result-hero{text-align:center;padding:20px 0}
+.score-badge{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  width:120px;height:120px;border-radius:50%;color:#fff;
+  background:linear-gradient(135deg,#d32f2f,#b71c1c);
+  box-shadow:0 8px 30px rgba(211,47,47,.3);
+}
+.score-badge .val{font-size:52px;font-weight:900;line-height:1}
+.score-badge .unit{font-size:13px;opacity:.9;margin-top:2px}
+.score-remark{font-size:17px;font-weight:700;margin-top:10px}
+
+.result-stats{display:flex;justify-content:space-around;text-align:center;margin:18px 0;padding:14px 0;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.stat .num{font-size:26px;font-weight:900}
+.stat .lbl{font-size:12px;color:var(--text2)}
+.stat.c .num{color:var(--success)}
+.stat.w .num{color:var(--red)}
+.stat.t .num{color:var(--warn)}
+
+/* 答题明细 */
+.detail-toggle{
+  text-align:center;padding:8px;color:var(--red);font-size:14px;font-weight:600;
+  cursor:pointer;user-select:none;
+}
+.detail-list{max-height:0;overflow:hidden;transition:max-height .3s}
+.detail-list.show{max-height:4000px}
+.detail-item{
+  display:flex;align-items:flex-start;padding:10px 12px;gap:10px;
+  border-bottom:1px solid #f5f5f5;font-size:13px;
+}
+.detail-item .di-status{font-size:18px;flex-shrink:0;width:28px;text-align:center}
+.detail-item .di-content{flex:1;min-width:0}
+.detail-item .di-q{font-weight:600;color:var(--text);margin-bottom:3px}
+.detail-item .di-a{color:var(--text3);font-size:12px}
+
+/* 排行榜 */
+.rank-box{margin-top:16px}
+.rank-box h3{font-size:16px;text-align:center;color:var(--red);margin-bottom:10px}
+.rank-item{
+  display:flex;align-items:center;padding:10px 12px;gap:10px;
+  border-bottom:1px solid #f2f2f2;
+}
+.rank-item .pos{
+  width:28px;height:28px;border-radius:50%;text-align:center;
+  line-height:28px;font-weight:900;font-size:13px;flex-shrink:0;
+  background:#f0f0f0;color:var(--text);
+}
+.rank-item:nth-child(1) .pos{background:#ffd700;color:#8b0000}
+.rank-item:nth-child(2) .pos{background:#c0c0c0;color:#333}
+.rank-item:nth-child(3) .pos{background:#cd7f32;color:#fff}
+.rank-item .info{flex:1;min-width:0}
+.rank-item .info .name{font-weight:600;font-size:14px}
+.rank-item .info .meta{font-size:11px;color:var(--text3)}
+.rank-item .rscore{font-weight:900;font-size:17px;color:var(--red);white-space:nowrap}
+.rank-empty{text-align:center;padding:30px;color:var(--text3);font-size:14px}
+
+/* 页脚 */
+.footer{
+  text-align:center;padding:20px 16px;color:var(--text3);
+  font-size:12px;line-height:1.8;
 }
 
-/* ====== 主卡片 ====== */
-.container { padding: 0 12px 24px; max-width: 500px; margin: 0 auto; }
-.card {
-  background: var(--card); border-radius: 16px; padding: 24px 20px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.15); margin-bottom: 16px;
+/* 弹窗 */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.modal{
+  background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:500px;
+  max-height:80vh;overflow-y:auto;padding:20px 16px;
+}
+.modal h3{text-align:center;color:var(--red);margin-bottom:8px;font-size:16px}
+.modal .close{
+  position:absolute;right:16px;top:16px;font-size:20px;
+  cursor:pointer;color:var(--text3);
 }
 
-/* ====== 首页输入 ====== */
-.input-group { margin-bottom: 16px; }
-.input-group label {
-  display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;
-  color: var(--text);
-}
-.input-group input, .input-group select {
-  width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0;
-  border-radius: 10px; font-size: 16px; transition: border 0.2s;
-  background: #fafafa;
-}
-.input-group input:focus, .input-group select:focus {
-  outline: none; border-color: var(--primary); background: #fff;
-}
-.input-group .hint { font-size: 12px; color: #999; margin-top: 4px; }
+/* 小提示 */
+.tip{background:#fff8e1;border-radius:8px;padding:10px 12px;font-size:12px;color:var(--warn);margin:10px 0}
 
-.btn {
-  display: block; width: 100%; padding: 14px; border: none; border-radius: 12px;
-  font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s;
-  letter-spacing: 1px; text-align: center;
-}
-.btn-primary {
-  background: linear-gradient(135deg, #d32f2f, #b71c1c); color: #fff;
-  box-shadow: 0 4px 15px rgba(211,47,47,0.4);
-}
-.btn-primary:active { transform: scale(0.97); opacity: 0.9; }
-.btn-primary:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
-
-/* ====== 答题页 ====== */
-.quiz-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
-}
-.progress-text { font-size: 14px; font-weight: 600; color: var(--text); }
-.timer {
-  font-size: 20px; font-weight: 900; color: var(--primary);
-  min-width: 50px; text-align: right;
-}
-.timer.warning { color: var(--orange); animation: pulse 0.5s infinite; }
-.timer.danger { color: var(--danger); }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-
-.progress-bar {
-  height: 6px; background: #e0e0e0; border-radius: 3px;
-  margin-bottom: 20px; overflow: hidden;
-}
-.progress-fill {
-  height: 100%; background: linear-gradient(90deg, var(--primary), var(--orange));
-  border-radius: 3px; transition: width 0.3s;
-}
-
-.question-text {
-  font-size: 17px; font-weight: 600; line-height: 1.6;
-  margin-bottom: 20px; color: var(--text);
-}
-.question-category {
-  display: inline-block; font-size: 12px; background: #ffebee;
-  color: var(--primary); padding: 2px 10px; border-radius: 10px;
-  margin-bottom: 10px; font-weight: 600;
-}
-
-.option-btn {
-  display: block; width: 100%; padding: 14px 16px; margin-bottom: 10px;
-  border: 2px solid #e0e0e0; border-radius: 12px; background: #fff;
-  font-size: 15px; text-align: left; cursor: pointer; transition: all 0.15s;
-  position: relative; line-height: 1.4;
-}
-.option-btn:active { transform: scale(0.98); }
-.option-btn.selected {
-  border-color: var(--primary); background: #ffebee;
-  font-weight: 600;
-}
-.option-btn.correct {
-  border-color: var(--success); background: #e8f5e9;
-}
-.option-btn.wrong {
-  border-color: var(--danger); background: #ffebee;
-}
-.option-btn:disabled { cursor: default; }
-
-/* ====== 结果页 ====== */
-.result-hero { text-align: center; padding: 20px 0; }
-.score-circle {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 130px; height: 130px; border-radius: 50%; font-size: 48px;
-  font-weight: 900; color: #fff; margin: 10px auto;
-  background: linear-gradient(135deg, #d32f2f, #b71c1c);
-  box-shadow: 0 8px 25px rgba(211,47,47,0.3);
-}
-.score-label { font-size: 16px; color: var(--text-light); margin-top: 8px; }
-.score-grade { font-size: 20px; font-weight: 700; margin-top: 4px; }
-
-.result-stats {
-  display: flex; justify-content: space-around; text-align: center;
-  margin: 20px 0; padding: 16px 0; border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-}
-.stat-item .stat-num { font-size: 28px; font-weight: 900; }
-.stat-item .stat-label { font-size: 13px; color: var(--text-light); }
-.stat-item.correct .stat-num { color: var(--success); }
-.stat-item.wrong .stat-num { color: var(--danger); }
-.stat-item.time .stat-num { color: var(--orange); }
-
-/* ====== 排行榜 ====== */
-.leaderboard { margin-top: 16px; }
-.leaderboard h3 {
-  font-size: 18px; text-align: center; margin-bottom: 12px;
-  color: var(--primary);
-}
-.rank-list { list-style: none; }
-.rank-item {
-  display: flex; align-items: center; padding: 10px 12px;
-  border-bottom: 1px solid #f0f0f0; gap: 10px;
-}
-.rank-item .rank-num {
-  width: 28px; height: 28px; border-radius: 50%; text-align: center;
-  line-height: 28px; font-weight: 900; font-size: 14px; flex-shrink: 0;
-  background: #f0f0f0; color: var(--text);
-}
-.rank-item:nth-child(1) .rank-num { background: #ffd700; color: #b71c1c; }
-.rank-item:nth-child(2) .rank-num { background: #c0c0c0; color: #333; }
-.rank-item:nth-child(3) .rank-num { background: #cd7f32; color: #fff; }
-.rank-item .rank-info { flex: 1; min-width: 0; }
-.rank-item .rank-name { font-weight: 600; font-size: 15px; }
-.rank-item .rank-meta { font-size: 12px; color: #999; }
-.rank-item .rank-score { font-weight: 900; font-size: 18px; color: var(--primary); }
-
-/* ====== 底部 ====== */
-.footer {
-  text-align: center; padding: 16px; color: rgba(255,255,255,0.6);
-  font-size: 12px; max-width: 500px; margin: 0 auto;
-}
-
-/* 回页首按钮样式修正 */
-.btn-outline {
-  background: #fff; color: var(--primary); border: 2px solid var(--primary);
-  font-weight: 600;
-}
-.btn-outline:active { background: #ffebee; }
-
-/* 隐藏 */
-.hidden { display: none !important; }
+/* 返回按钮 */
+.back-row{text-align:center;padding:16px}
+.back-row a{color:var(--red);font-size:14px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 
-<!-- ====== 顶部 ====== -->
-<div class="header">
-  <div class="badge">第25个全国安全生产月</div>
-  <h1>人人讲安全 个个会应急<br>——<span class="highlight">排查整治风险隐患</span></h1>
-  <div class="subtitle">安全知识在线答题 · 2026年6月</div>
-</div>
+<div class="page" id="page-main">
 
-<div class="container">
-
-  <!-- ====== 页面1：登记 ====== -->
-  <div class="card" id="page-register">
-    <h2 style="text-align:center;margin-bottom:20px;font-size:18px;">📋 请填写信息后开始答题</h2>
-    <div class="input-group">
-      <label>姓名</label>
-      <input type="text" id="input-name" placeholder="请输入您的姓名" maxlength="20" autocomplete="name">
-    </div>
-    <div class="input-group">
-      <label>工号</label>
-      <input type="text" id="input-id" placeholder="请输入您的工号" maxlength="20">
-      <div class="hint">用于领奖核对身份</div>
-    </div>
-    <div class="input-group">
-      <label>班组</label>
-      <select id="input-team">
-        <option value="">请选择班组</option>
-        <option>土建一班</option><option>土建二班</option><option>土建三班</option>
-        <option>钢筋班</option><option>木工班</option><option>混凝土班</option>
-        <option>架子工班</option><option>电焊班</option><option>电工班</option>
-        <option>起重班</option><option>安装一班</option><option>安装二班</option>
-        <option>装修班</option><option>油漆班</option><option>综合班</option>
-        <option>其他</option>
-      </select>
-    </div>
-    <div style="background:#fff8e1;border-radius:10px;padding:12px;margin:12px 0;font-size:13px;color:#e65100;">
-      ⏱️ 共20题 · 每题限时30秒 · 满分100分 · 得分越高排名越靠前
-    </div>
-    <button class="btn btn-primary" id="btn-start" onclick="startQuiz()">开始答题</button>
+  <!-- ========== HERO ========== -->
+  <div class="hero">
+    <div class="tag">第25个全国安全生产月</div>
+    <h1>人人讲安全 个个会应急<br><span class="hl">排查整治风险隐患</span></h1>
+    <div class="date">2026年6月 · 安全宣传咨询日：6月16日</div>
   </div>
 
-  <!-- ====== 页面2：答题 ====== -->
-  <div class="card hidden" id="page-quiz">
-    <div class="quiz-header">
-      <span class="progress-text" id="progress-text">第 1/20 题</span>
-      <span class="timer" id="timer">⏱ 30</span>
+  <!-- ========== 事故警示 ========== -->
+  <div class="section">
+    <div class="section-title">🚨 事故警示</div>
+    <div class="warning-cards">
+      <div class="warn-card">
+        <div class="warn-card-header">
+          <span class="icon">💀</span>
+          <span class="title">违章不系安全带 · 高处坠落</span>
+        </div>
+        <div class="warn-card-body">
+          <div class="case">
+            <strong>真实案例：</strong>某工地一名架子工在拆除脚手架时未系挂安全带，脚下一滑从12米高处坠落，经抢救无效死亡。留下一家老小，赔偿金换不回一条命。
+          </div>
+          <div class="lesson">⚠️ 高处作业必须正确系挂安全带，高挂低用！冒险一秒钟，亲人一辈子！</div>
+        </div>
+      </div>
+      <div class="warn-card">
+        <div class="warn-card-header">
+          <span class="icon">⚡</span>
+          <span class="title">电缆破损不处理 · 触电身亡</span>
+        </div>
+        <div class="warn-card-body">
+          <div class="case">
+            <strong>真实案例：</strong>某施工现场临时电缆外皮破损铜芯外露，雨后地面积水，一名工人路过时触电倒地，因抢救不及时死亡。
+          </div>
+          <div class="lesson">⚠️ 发现电线破损立即报告电工！先断电再处理，严禁私自处理带电线路！</div>
+        </div>
+      </div>
+      <div class="warn-card">
+        <div class="warn-card-header">
+          <span class="icon">🔥</span>
+          <span class="title">动火未清易燃物 · 重大火灾</span>
+        </div>
+        <div class="warn-card-body">
+          <div class="case">
+            <strong>真实案例：</strong>某工地电焊作业时未清理下方堆放的保温材料，焊渣飞溅引燃后迅速扩大，造成整栋在建建筑过火，直接经济损失数千万元。
+          </div>
+          <div class="lesson">⚠️ 动火前必须清理周围10米内易燃物，配备灭火器材，安排专人监护！</div>
+        </div>
+      </div>
     </div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-    <div class="question-category" id="question-category"></div>
-    <div class="question-text" id="question-text"></div>
-    <div id="options-container"></div>
   </div>
 
-  <!-- ====== 页面3：结果 ====== -->
-  <div class="card hidden" id="page-result">
-    <div class="result-hero">
-      <div class="score-circle" id="score-circle">0</div>
-      <div class="score-label">您的得分</div>
-      <div class="score-grade" id="score-grade"></div>
-    </div>
-    <div class="result-stats">
-      <div class="stat-item correct">
-        <div class="stat-num" id="stat-correct">0</div>
-        <div class="stat-label">✅ 答对</div>
+  <!-- ========== 各作业环节安全要点 ========== -->
+  <div class="section">
+    <div class="section-title">📋 各作业环节安全要点</div>
+    <div class="topics">
+      <!-- 高处作业 -->
+      <div class="topic-card">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="left"><span class="icon">🏗️</span><span class="name">高处作业</span></div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="topic-body">
+          <ul>
+            <li>作业前检查安全带、安全绳，有磨损断股立即更换</li>
+            <li>安全带必须高挂低用，挂在牢固可靠的构件上</li>
+            <li>安全带受过坠落冲击后必须立即更换，不得继续使用</li>
+            <li>临边、洞口作业前先搭设防护栏杆或拉设生命线</li>
+            <li>工具放入工具袋，手持工具采取防脱手措施</li>
+            <li>六级及以上大风、暴雨、雷电、大雾、大雪天停止露天高处作业</li>
+            <li>上下脚手架走专用安全通道或爬梯，严禁攀爬杆件</li>
+          </ul>
+        </div>
       </div>
-      <div class="stat-item wrong">
-        <div class="stat-num" id="stat-wrong">0</div>
-        <div class="stat-label">❌ 答错</div>
+      <!-- 临时用电 -->
+      <div class="topic-card">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="left"><span class="icon">⚡</span><span class="name">临时用电</span></div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="topic-body">
+          <ul>
+            <li>施工现场必须采用 TN-S 三相五线制（三级配电、两级保护）</li>
+            <li>每台设备有自己专用开关箱，做到"一机一闸一漏一箱"</li>
+            <li>发现有人触电立即断电；无法断电时用干燥木棍挑开电线</li>
+            <li>电缆穿越道路须套保护管埋地或架空敷设</li>
+            <li>发现电线破损、铜芯外露，立即设警示标志并报告电工</li>
+            <li>严禁私拉乱接电线，严禁用铜丝代替保险丝</li>
+          </ul>
+        </div>
       </div>
-      <div class="stat-item time">
-        <div class="stat-num" id="stat-time">0</div>
-        <div class="stat-label">⏱ 用时(秒)</div>
+      <!-- 动火作业 -->
+      <div class="topic-card">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="left"><span class="icon">🔥</span><span class="name">动火作业</span></div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="topic-body">
+          <ul>
+            <li>动火前清理10米范围内易燃可燃物</li>
+            <li>配备足量灭火器材，安排专人监护</li>
+            <li>易燃易爆物品库房须单独设置，远离作业区</li>
+            <li>乙炔瓶和氧气瓶间距不小于5米，与明火距离不小于10米</li>
+            <li>消火栓、灭火器箱前1.5米内严禁堆放杂物</li>
+            <li>干粉灭火器可扑救固体、液体、气体及带电设备火灾</li>
+            <li>使用灭火器站在上风方向，对准火焰根部喷射</li>
+          </ul>
+        </div>
+      </div>
+      <!-- 起重吊装 -->
+      <div class="topic-card">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="left"><span class="icon">🏗️</span><span class="name">起重吊装</span></div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="topic-body">
+          <ul>
+            <li>吊臂和吊物下方严禁站人或通行</li>
+            <li>六级及以上大风、暴雨、雷电等天气停止起重设备作业</li>
+            <li>吊具、钢丝绳使用前必须检查，有断丝、变形立即更换</li>
+            <li>起重信号工、司索工必须持证上岗，信号明确统一</li>
+            <li>发现吊物下方有人员停留，立即呼喊制止并劝离</li>
+          </ul>
+        </div>
+      </div>
+      <!-- 有限空间 -->
+      <div class="topic-card">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="left"><span class="icon">🕳️</span><span class="name">有限空间作业</span></div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="topic-body">
+          <ul>
+            <li>严格执行"先通风、再检测、后作业"原则</li>
+            <li>作业前必须进行有毒有害气体和氧气含量检测</li>
+            <li>一旦发生人员中毒窒息晕倒，立即强制通风并向负责人报告</li>
+            <li>救援人员必须佩戴空气呼吸器后方可进入施救</li>
+            <li>严禁盲目施救——不用防护装备冲进去只会增加伤亡</li>
+          </ul>
+        </div>
+      </div>
+      <!-- 脚手架作业 -->
+      <div class="topic-card">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="left"><span class="icon">🪜</span><span class="name">脚手架作业</span></div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="topic-body">
+          <ul>
+            <li>脚手板必须满铺并固定牢固，严禁探头板（板端悬空）</li>
+            <li>上下脚手架走专用安全通道或爬梯，禁止攀爬架体杆件</li>
+            <li>严禁翻越脚手架护栏进出作业面</li>
+            <li>架上作业必须全程正确系挂安全带</li>
+            <li>发现工友在架上未系安全带，立即制止并报告</li>
+            <li>脚手架验收合格挂牌后方可使用</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div style="background:#e8f5e9;border-radius:10px;padding:14px;text-align:center;margin-bottom:16px;font-size:14px;">
-      📱 <strong>请截图此页面</strong>，凭截图到项目部领取奖品！<br>
-      <span style="color:#999;font-size:12px;">高分榜上有名的更有额外奖励哦~</span>
+  </div>
+
+  <!-- ========== 安全箴言 ========== -->
+  <div class="motto">
+    <div class="icon">🛡️</div>
+    <div class="text">
+      事故出自麻痹 · 安全来自警惕<br>
+      你的安全牵动着全家人的心
     </div>
-    <button class="btn btn-outline" onclick="showLeaderboard()" style="margin-bottom:8px;">
-      🏆 查看排行榜
+    <div class="sub">—— 第25个全国安全生产月</div>
+  </div>
+
+  <!-- ========== 答题入口 ========== -->
+  <div class="quiz-entry">
+    <button class="btn-quiz" onclick="enterQuiz()">
+      🎯 参与安全知识答题 <span class="arrow">→</span>
     </button>
-    <button class="btn btn-primary" onclick="restart()">再次答题</button>
-
-    <!-- 排行榜区域 -->
-    <div class="leaderboard hidden" id="leaderboard-section">
-      <h3>🏆 答题排行榜 TOP 20</h3>
-      <div id="leaderboard-loading" style="text-align:center;padding:20px;color:#999;">加载中...</div>
-      <ul class="rank-list hidden" id="rank-list"></ul>
-      <div style="text-align:center;padding:10px;font-size:12px;color:#999;" id="rank-empty" class="hidden">
-        暂无排行数据，快来答题抢榜吧！
-      </div>
-    </div>
   </div>
 
+  <!-- ========== 页脚 ========== -->
+  <div class="footer">
+    <p>以人为本 · 安全第一 · 预防为主 · 综合治理</p>
+    <p>2026年第25个全国安全生产月</p>
+    <p>人人讲安全、个个会应急——排查整治风险隐患</p>
+  </div>
 </div>
 
-<div class="footer">
-  <p>以人为本 · 安全第一 · 预防为主 · 综合治理</p>
-  <p style="margin-top:4px;">2026年全国安全生产月 · 第25个</p>
+<!-- =============================================== -->
+<!-- 答题模块（初始隐藏） -->
+<!-- =============================================== -->
+<div class="page hidden" id="page-quiz">
+  <div class="quiz-top">
+    <h2>安全知识答题</h2>
+    <div class="sub">2026安全生产月 · 共30题</div>
+  </div>
+  <div class="quiz-body" id="quiz-stage"></div>
 </div>
 
-<!-- ====== JS ====== -->
+<!-- 排行榜弹窗 -->
+<div class="modal-overlay hidden" id="modal-rank">
+  <div class="modal" id="modal-rank-inner"></div>
+</div>
+
 <script src="questions.js"></script>
 <script>
-// ============ 全局状态 ============
-const TOTAL_QUESTIONS = 20;
-const TIME_PER_QUESTION = 30;
-let quizQuestions = [];     // 随机抽取的20题
-let currentIndex = 0;
-let score = 0;
-let correctCount = 0;
-let wrongCount = 0;
-let timerInterval = null;
-let timeLeft = TIME_PER_QUESTION;
-let totalTimeElapsed = 0;
-let startTime = 0;
-let userInfo = {};
-let quizFinished = false;
+// ==================== 全局状态 ====================
+const TOTAL = 30;
+let answers = new Array(TOTAL).fill(-1); // -1=未答, 0-3=所选
+let currentQ = 0;
+let quizStart = 0;
 
-// ============ 开始答题 ============
-function startQuiz() {
-  const name = document.getElementById('input-name').value.trim();
-  const uid = document.getElementById('input-id').value.trim();
-  const team = document.getElementById('input-team').value;
-
-  if (!name) { alert('请输入姓名'); return; }
-  if (!uid) { alert('请输入工号'); return; }
-  if (!team) { alert('请选择班组'); return; }
-
-  userInfo = { name, id: uid, team, timestamp: new Date().toISOString() };
-  
-  // 随机抽取20题
-  const shuffled = [...questions].sort(() => Math.random() - 0.5);
-  quizQuestions = shuffled.slice(0, TOTAL_QUESTIONS);
-  
-  // 每题选项乱序
-  quizQuestions = quizQuestions.map(q => {
-    const indices = [0, 1, 2, 3];
-    for (let i = indices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [indices[i], indices[j]] = [indices[j], indices[i]];
-    }
-    return {
-      ...q,
-      shuffledOptions: indices.map(i => q.options[i]),
-      correctShuffled: indices.indexOf(0) // 原来answer=0是正确答案，找到它在乱序后的位置
-    };
-  });
-
-  // 重置
-  currentIndex = 0; score = 0; correctCount = 0; wrongCount = 0;
-  totalTimeElapsed = 0; quizFinished = false;
-  
-  // 切换页面
-  document.getElementById('page-register').classList.add('hidden');
-  document.getElementById('page-quiz').classList.remove('hidden');
-  document.getElementById('page-result').classList.add('hidden');
-  
-  showQuestion();
-  startTime = Date.now();
+// ==================== 宣传页功能 ====================
+function toggleTopic(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.arrow');
+  body.classList.toggle('show');
+  arrow.classList.toggle('open');
 }
 
-// ============ 显示题目 ============
-function showQuestion() {
-  if (currentIndex >= quizQuestions.length) {
+// ==================== 进入答题 ====================
+function enterQuiz() {
+  // 检查该用户是否已达3次
+  const key = getIdentityKey();
+  if (key) {
+    const records = getRecords(key);
+    if (records.length >= 3) {
+      alert('您已完成3次答题，不能再答了。');
+      return;
+    }
+  }
+
+  // 重置
+  answers = new Array(TOTAL).fill(-1);
+  currentQ = 0;
+  quizStart = Date.now();
+
+  // 切换页面
+  document.getElementById('page-main').classList.add('hidden');
+  document.getElementById('page-quiz').classList.remove('hidden');
+  document.getElementById('modal-rank').classList.add('hidden');
+
+  showRegister();
+}
+
+// ==================== 登记页面 ====================
+function showRegister() {
+  document.getElementById('quiz-stage').innerHTML = `
+    <h3 style="text-align:center;margin-bottom:18px;font-size:16px;">📋 请填写信息</h3>
+    <div class="form-group">
+      <label>姓名</label>
+      <input type="text" id="reg-name" placeholder="请输入您的姓名" maxlength="20">
+    </div>
+    <div class="form-group">
+      <label>单位</label>
+      <input type="text" id="reg-unit" placeholder="请输入您的单位/施工队名称" maxlength="30">
+    </div>
+    <div class="form-group">
+      <label>队伍</label>
+      <input type="text" id="reg-team" placeholder="请输入您的班组/队伍名称" maxlength="30">
+    </div>
+    <div class="tip">
+      📌 每人限答3次，取平均分参与排名。姓名+单位+队伍一致视为同一人。
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()">开始答题</button>
+  `;
+}
+
+function startQuiz() {
+  const name = document.getElementById('reg-name').value.trim();
+  const unit = document.getElementById('reg-unit').value.trim();
+  const team = document.getElementById('reg-team').value.trim();
+
+  if (!name) { alert('请输入姓名'); return; }
+  if (!unit) { alert('请输入单位'); return; }
+  if (!team) { alert('请输入队伍'); return; }
+
+  const key = `${name}|||${unit}|||${team}`;
+  const records = getRecords(key);
+  if (records.length >= 3) {
+    alert('您已完成3次答题，不能再答了。');
+    return;
+  }
+
+  // 存储当前用户信息
+  sessionStorage.setItem('quiz_user', JSON.stringify({ name, unit, team, key }));
+  showQuestion(0);
+}
+
+function getIdentityKey() {
+  const u = sessionStorage.getItem('quiz_user');
+  if (!u) return null;
+  const p = JSON.parse(u);
+  return p.key;
+}
+
+// ==================== 答题页 ====================
+function showQuestion(idx) {
+  if (idx >= TOTAL) {
     finishQuiz();
     return;
   }
-  
-  const q = quizQuestions[currentIndex];
-  
-  document.getElementById('progress-text').textContent = `第 ${currentIndex + 1}/${TOTAL_QUESTIONS} 题`;
-  document.getElementById('progress-fill').style.width = `${(currentIndex / TOTAL_QUESTIONS) * 100}%`;
-  document.getElementById('question-category').textContent = q.category;
-  document.getElementById('question-text').textContent = `📝 ${q.question}`;
-  
-  const container = document.getElementById('options-container');
-  const labels = ['A', 'B', 'C', 'D'];
-  container.innerHTML = q.shuffledOptions.map((opt, i) => `
-    <button class="option-btn" onclick="selectAnswer(${i})" id="opt-${i}">
-      <strong>${labels[i]}.</strong> ${opt}
-    </button>
-  `).join('');
-  
-  // 计时
-  timeLeft = TIME_PER_QUESTION;
-  updateTimerDisplay();
-  startTimer();
+  currentQ = idx;
+  const q = questions[idx];
+
+  const pct = Math.round((idx / TOTAL) * 100);
+
+  document.getElementById('quiz-stage').innerHTML = `
+    <div class="q-progress">
+      <span class="num">第 ${idx + 1}/${TOTAL} 题</span>
+      <div class="bar"><div class="fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="q-cat">${q.category}</div>
+    <div class="q-text">${idx + 1}. ${q.question}</div>
+    <div id="options-area">
+      ${q.options.map((opt, i) => {
+        let cls = 'opt';
+        if (answers[idx] === i) cls += ' pick';
+        if (answers[idx] >= 0) cls += ' disabled';
+        return `<button class="${cls}" id="opt-${i}" ${answers[idx] >= 0 ? 'disabled' : ''} onclick="pickAnswer(${i})">${opt}</button>`;
+      }).join('')}
+    </div>
+    <div class="q-nav">
+      <button class="btn btn-outline" ${idx === 0 ? 'disabled' : ''} onclick="prevQ()">上一题</button>
+      <button class="btn btn-primary" onclick="nextQ()">${idx === TOTAL - 1 ? '交卷' : '下一题'}</button>
+    </div>
+  `;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ============ 计时器 ============
-function startTimer() {
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    totalTimeElapsed++;
-    updateTimerDisplay();
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      timeUp();
-    }
-  }, 1000);
-}
-
-function updateTimerDisplay() {
-  const el = document.getElementById('timer');
-  el.textContent = `⏱ ${timeLeft}`;
-  el.className = 'timer' + (timeLeft <= 10 ? (timeLeft <= 5 ? ' danger' : ' warning') : '');
-}
-
-function timeUp() {
-  // 超时算错
-  wrongCount++;
-  disableOptions();
-  highlightCorrectAnswer();
-  
-  setTimeout(() => {
-    currentIndex++;
-    if (currentIndex < quizQuestions.length) {
-      showQuestion();
-    } else {
-      finishQuiz();
-    }
-  }, 1500);
-}
-
-// ============ 选择答案 ============
-function selectAnswer(chosenIndex) {
-  if (quizFinished) return;
-  clearInterval(timerInterval);
-  quizFinished = true; // 防止重复点击
-  
-  const q = quizQuestions[currentIndex];
-  const isCorrect = (chosenIndex === q.correctShuffled);
-  
-  // 标记
-  const chosenBtn = document.getElementById(`opt-${chosenIndex}`);
-  chosenBtn.classList.add(isCorrect ? 'correct' : 'wrong');
-  
-  if (isCorrect) {
-    score += (100 / TOTAL_QUESTIONS);
-    correctCount++;
-  } else {
-    wrongCount++;
-    highlightCorrectAnswer();
-  }
-  
-  disableOptions();
-  
-  setTimeout(() => {
-    currentIndex++;
-    quizFinished = false;
-    if (currentIndex < quizQuestions.length) {
-      showQuestion();
-    } else {
-      finishQuiz();
-    }
-  }, isCorrect ? 600 : 1200);
-}
-
-function highlightCorrectAnswer() {
-  const q = quizQuestions[currentIndex];
-  const correctBtn = document.getElementById(`opt-${q.correctShuffled}`);
-  if (correctBtn) correctBtn.classList.add('correct');
-}
-
-function disableOptions() {
-  document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
-}
-
-// ============ 完成答题 ============
-async function finishQuiz() {
-  clearInterval(timerInterval);
-  quizFinished = true;
-  
-  const finalScore = Math.round(score);
-  const timeSec = totalTimeElapsed;
-  
-  document.getElementById('page-quiz').classList.add('hidden');
-  document.getElementById('page-result').classList.remove('hidden');
-  
-  document.getElementById('score-circle').textContent = finalScore;
-  document.getElementById('stat-correct').textContent = correctCount;
-  document.getElementById('stat-wrong').textContent = wrongCount;
-  document.getElementById('stat-time').textContent = timeSec;
-  
-  // 评级
-  let grade, gradeColor;
-  if (finalScore >= 95) { grade = '🏆 安全达人 · 太厉害了！'; gradeColor = '#2e7d32'; }
-  else if (finalScore >= 85) { grade = '⭐ 安全标兵 · 非常棒！'; gradeColor = '#f9a825'; }
-  else if (finalScore >= 70) { grade = '👍 安全能手 · 不错！'; gradeColor = '#e65100'; }
-  else if (finalScore >= 60) { grade = '📖 继续加油 · 安全知识还需提升'; gradeColor = '#666'; }
-  else { grade = '⚠️ 需要加油 · 安全无小事，多学习！'; gradeColor = '#c62828'; }
-  
-  document.getElementById('score-grade').textContent = grade;
-  document.getElementById('score-grade').style.color = gradeColor;
-  
-  // 隐藏排行榜（初始不显示）
-  document.getElementById('leaderboard-section').classList.add('hidden');
-  
-  // 保存成绩
-  saveScore(finalScore, timeSec);
-  
-  // 尝试提交到 Supabase
-  try {
-    await submitToSupabase(finalScore, timeSec);
-  } catch(e) {
-    console.log('Supabase 未配置或提交失败，使用本地存储:', e.message);
-  }
-}
-
-// ============ 成绩存储 & 排行榜 ============
-function saveScore(scoreVal, timeVal) {
-  const record = {
-    ...userInfo,
-    score: scoreVal,
-    time: timeVal,
-    correct: correctCount,
-    wrong: wrongCount,
-    date: new Date().toLocaleString('zh-CN')
-  };
-  
-  const records = JSON.parse(localStorage.getItem('safety_quiz_records') || '[]');
-  records.push(record);
-  localStorage.setItem('safety_quiz_records', JSON.stringify(records));
-}
-
-function getLeaderboard() {
-  const records = JSON.parse(localStorage.getItem('safety_quiz_records') || '[]');
-  // 按分数降序，分数相同按时间升序
-  records.sort((a, b) => {
-    if (b.score !== a.score) return b.score - a.score;
-    return a.time - b.time;
+function pickAnswer(i) {
+  answers[currentQ] = i;
+  // 更新选项样式
+  document.querySelectorAll('.opt').forEach((el, j) => {
+    el.classList.remove('pick');
+    if (j === i) el.classList.add('pick');
   });
-  return records.slice(0, 20);
 }
 
-function showLeaderboard() {
-  const section = document.getElementById('leaderboard-section');
-  section.classList.toggle('hidden');
-  
-  if (!section.classList.contains('hidden')) {
-    loadLeaderboard();
-  }
+function prevQ() {
+  if (currentQ > 0) showQuestion(currentQ - 1);
 }
 
-async function loadLeaderboard() {
-  document.getElementById('leaderboard-loading').classList.remove('hidden');
-  document.getElementById('rank-list').classList.add('hidden');
-  document.getElementById('rank-empty').classList.add('hidden');
-  
-  let leaderboard = [];
-  
-  // 尝试从 Supabase 加载
-  try {
-    leaderboard = await fetchFromSupabase();
-  } catch(e) {
-    console.log('从 Supabase 加载失败，使用本地数据');
-  }
-  
-  // 如果 Supabase 为空，用本地数据
-  if (leaderboard.length === 0) {
-    leaderboard = getLeaderboard();
-  }
-  
-  document.getElementById('leaderboard-loading').classList.add('hidden');
-  
-  if (leaderboard.length === 0) {
-    document.getElementById('rank-empty').classList.remove('hidden');
+function nextQ() {
+  if (answers[currentQ] === -1) {
+    alert('请先选择一个答案');
     return;
   }
-  
-  const list = document.getElementById('rank-list');
-  list.innerHTML = leaderboard.map((r, i) => {
-    const medal = i < 3 ? ['🥇','🥈','🥉'][i] : '';
+  showQuestion(currentQ + 1);
+}
+
+// ==================== 完成答题 ====================
+function finishQuiz() {
+  const elapsed = Math.round((Date.now() - quizStart) / 1000);
+  let correct = 0;
+  const wrongList = [];
+
+  answers.forEach((ans, i) => {
+    if (ans === questions[i].answer) correct++;
+    else wrongList.push(i);
+  });
+
+  const score = correct; // 30分制，每题1分
+  const user = JSON.parse(sessionStorage.getItem('quiz_user'));
+  const record = {
+    name: user.name,
+    unit: user.unit,
+    team: user.team,
+    score,
+    time: elapsed,
+    correct,
+    wrong: TOTAL - correct,
+    date: new Date().toLocaleString('zh-CN'),
+    answers: [...answers]
+  };
+
+  // 保存记录
+  saveRecord(user.key, record);
+
+  // 渲染结果
+  renderResult(record, wrongList);
+
+  // 滚动到顶部
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderResult(record, wrongList) {
+  let remark, remarkColor;
+  if (record.score >= 28) { remark = '🏆 安全达人 · 非常优秀！'; remarkColor = '#2e7d32'; }
+  else if (record.score >= 24) { remark = '⭐ 安全标兵 · 很不错！'; remarkColor = '#f9a825'; }
+  else if (record.score >= 20) { remark = '👍 安全能手 · 继续加油！'; remarkColor = '#e65100'; }
+  else if (record.score >= 15) { remark = '📖 还需努力 · 安全知识要补课了'; remarkColor = '#c62828'; }
+  else { remark = '⚠️ 安全无小事 · 认真学习再答题！'; remarkColor = '#c62828'; }
+
+  // 构建明细HTML
+  let detailHTML = questions.map((q, i) => {
+    const isRight = record.answers[i] === q.answer;
+    const yourAns = record.answers[i] >= 0 ? q.options[record.answers[i]] : '未作答';
     return `
-      <li class="rank-item">
-        <div class="rank-num">${medal || (i + 1)}</div>
-        <div class="rank-info">
-          <div class="rank-name">${escapeHtml(r.name)} ${medal}</div>
-          <div class="rank-meta">${escapeHtml(r.team || '')} · 工号${escapeHtml(r.id || '')}</div>
+      <div class="detail-item">
+        <div class="di-status">${isRight ? '✅' : '❌'}</div>
+        <div class="di-content">
+          <div class="di-q">${i + 1}. ${q.question}</div>
+          <div class="di-a">你的答案：${yourAns}</div>
+          ${!isRight ? `<div class="di-a" style="color:#2e7d32">正确答案：${q.options[q.answer]}</div>` : ''}
         </div>
-        <div class="rank-score">${r.score}分</div>
-      </li>
+      </div>
     `;
   }).join('');
-  list.classList.remove('hidden');
+
+  document.getElementById('quiz-stage').innerHTML = `
+    <div class="result-hero">
+      <div class="score-badge">
+        <div class="val">${record.score}</div>
+        <div class="unit">/ 30 分</div>
+      </div>
+      <div class="score-remark" style="color:${remarkColor}">${remark}</div>
+    </div>
+    <div class="result-stats">
+      <div class="stat c">
+        <div class="num">${record.correct}</div>
+        <div class="lbl">✅ 答对</div>
+      </div>
+      <div class="stat w">
+        <div class="num">${record.wrong}</div>
+        <div class="lbl">❌ 答错</div>
+      </div>
+      <div class="stat t">
+        <div class="num">${record.time}″</div>
+        <div class="lbl">⏱ 用时</div>
+      </div>
+    </div>
+    <div class="tip" style="text-align:center;font-size:13px;">
+      📱 <strong>请截图此页面</strong>，凭截图到项目部领取参与奖！<br>
+      排行榜高分者更有额外奖励～
+    </div>
+    <div class="detail-toggle" onclick="toggleDetail()">
+      📋 查看答题明细 ▼
+    </div>
+    <div class="detail-list" id="detail-list">
+      ${detailHTML}
+    </div>
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-outline" style="flex:1" onclick="viewRank()">🏆 排行榜</button>
+      <button class="btn btn-secondary" style="flex:1" onclick="retryQuiz()">🔄 再答一次</button>
+    </div>
+    <div class="back-row">
+      <a href="javascript:backToMain()">← 返回安全知识宣传页</a>
+    </div>
+  `;
 }
 
-function restart() {
-  document.getElementById('page-result').classList.add('hidden');
-  document.getElementById('page-register').classList.remove('hidden');
-  document.getElementById('btn-start').disabled = false;
-  document.getElementById('leaderboard-section').classList.add('hidden');
+function toggleDetail() {
+  const el = document.getElementById('detail-list');
+  const toggle = document.querySelector('.detail-toggle');
+  el.classList.toggle('show');
+  toggle.textContent = el.classList.contains('show') ? '📋 收起明细 ▲' : '📋 查看答题明细 ▼';
 }
 
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str || '';
-  return div.innerHTML;
+// ==================== 排行榜 ====================
+function viewRank() {
+  const all = getAllLeaderboard();
+  let html = '<h3>🏆 答题排行榜</h3>';
+  html += '<div class="tip" style="font-size:11px;text-align:center">每人3次答题取平均分，按分数→用时排序</div>';
+
+  if (all.length === 0) {
+    html += '<div class="rank-empty">暂无排行数据，快来答题抢榜！</div>';
+  } else {
+    html += '<div style="margin-top:10px">';
+    all.forEach((r, i) => {
+      const medal = i < 3 ? ['🥇','🥈','🥉'][i] : '';
+      html += `
+        <div class="rank-item">
+          <div class="pos">${medal || (i + 1)}</div>
+          <div class="info">
+            <div class="name">${esc(r.name)} ${medal}</div>
+            <div class="meta">${esc(r.unit)} · ${esc(r.team)} · 答题${r.attempts}次</div>
+          </div>
+          <div class="rscore">${r.avgScore.toFixed(1)}分</div>
+        </div>
+      `;
+    });
+    html += '</div>';
+  }
+
+  html += `
+    <div style="text-align:center;margin-top:16px">
+      <button class="btn-small" onclick="closeRank()">关闭</button>
+    </div>
+  `;
+
+  document.getElementById('modal-rank-inner').innerHTML = html;
+  document.getElementById('modal-rank').classList.remove('hidden');
 }
 
-// ============ Supabase 集成（待配置） ============
-// 部署前替换为你的 Supabase URL 和 anon key
-const SUPABASE_URL = '';
-const SUPABASE_KEY = '';
+function closeRank() {
+  document.getElementById('modal-rank').classList.add('hidden');
+}
 
-async function submitToSupabase(scoreVal, timeVal) {
-  if (!SUPABASE_URL || !SUPABASE_KEY) throw new Error('未配置');
-  
-  const resp = await fetch(`${SUPABASE_URL}/rest/v1/quiz_results`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SUPABASE_KEY,
-      'Authorization': `Bearer ${SUPABASE_KEY}`,
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({
-      name: userInfo.name,
-      worker_id: userInfo.id,
-      team: userInfo.team,
-      score: scoreVal,
-      time_seconds: timeVal,
-      correct_count: correctCount,
-      wrong_count: wrongCount
-    })
+// 点击遮罩关闭
+document.getElementById('modal-rank').addEventListener('click', function(e) {
+  if (e.target === this) closeRank();
+});
+
+// ==================== 数据存储 ====================
+function getRecords(key) {
+  const all = JSON.parse(localStorage.getItem('sq_records') || '{}');
+  return all[key] || [];
+}
+
+function saveRecord(key, record) {
+  const all = JSON.parse(localStorage.getItem('sq_records') || '{}');
+  if (!all[key]) all[key] = [];
+  all[key].push(record);
+  // 每人最多保留3次
+  if (all[key].length > 3) all[key] = all[key].slice(-3);
+  localStorage.setItem('sq_records', JSON.stringify(all));
+}
+
+function getUserAvg(key) {
+  const records = getRecords(key);
+  if (records.length === 0) return 0;
+  const sum = records.reduce((s, r) => s + r.score, 0);
+  return sum / records.length;
+}
+
+function getUserBestTime(key) {
+  const records = getRecords(key);
+  if (records.length === 0) return Infinity;
+  return Math.min(...records.map(r => r.time));
+}
+
+function getAllLeaderboard() {
+  const all = JSON.parse(localStorage.getItem('sq_records') || '{}');
+  const list = [];
+  for (const [key, records] of Object.entries(all)) {
+    if (records.length === 0) continue;
+    const first = records[0];
+    const sum = records.reduce((s, r) => s + r.score, 0);
+    list.push({
+      name: first.name,
+      unit: first.unit,
+      team: first.team,
+      avgScore: sum / records.length,
+      avgTime: Math.round(records.reduce((s, r) => s + r.time, 0) / records.length),
+      attempts: records.length,
+      key
+    });
+  }
+  // 按平均分降序，同分按平均用时升序
+  list.sort((a, b) => {
+    if (b.avgScore !== a.avgScore) return b.avgScore - a.avgScore;
+    return a.avgTime - b.avgTime;
   });
-  
-  if (!resp.ok) throw new Error(`Supabase error: ${resp.status}`);
+  return list.slice(0, 20);
 }
 
-async function fetchFromSupabase() {
-  if (!SUPABASE_URL || !SUPABASE_KEY) throw new Error('未配置');
-  
-  const resp = await fetch(
-    `${SUPABASE_URL}/rest/v1/quiz_results?select=*&order=score.desc,time_seconds.asc&limit=20`,
-    { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
-  );
-  
-  if (!resp.ok) throw new Error(`Supabase error: ${resp.status}`);
-  return await resp.json();
+// ==================== 导航 ====================
+function backToMain() {
+  document.getElementById('page-quiz').classList.add('hidden');
+  document.getElementById('page-main').classList.remove('hidden');
+  document.getElementById('modal-rank').classList.add('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ============ 输入校验 ============
-document.getElementById('input-name').addEventListener('input', checkInput);
-document.getElementById('input-id').addEventListener('input', checkInput);
-document.getElementById('input-team').addEventListener('change', checkInput);
+function retryQuiz() {
+  const key = getIdentityKey();
+  if (!key) { alert('信息丢失，请重新进入'); backToMain(); return; }
+  const records = getRecords(key);
+  if (records.length >= 3) {
+    alert('您已完成3次答题，不能再答了。');
+    return;
+  }
+  answers = new Array(TOTAL).fill(-1);
+  currentQ = 0;
+  quizStart = Date.now();
+  showRegister();
+}
 
-function checkInput() {
-  const name = document.getElementById('input-name').value.trim();
-  const uid = document.getElementById('input-id').value.trim();
-  const team = document.getElementById('input-team').value;
-  document.getElementById('btn-start').disabled = !(name && uid && team);
+// ==================== 工具 ====================
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
 }
 </script>
 </body>
